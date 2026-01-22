@@ -1,186 +1,342 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio - CrojasGit</title>
-  <style>
-    /* ======== ESTILOS GENERALES ======== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | Carlos Rojas</title>
 
-    body {
-      background: #f5f9ff;
-      color: #000; /* todo el texto en negro */
-      overflow-x: hidden;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
 
-    h1, h2, h3 {
-      color: #000; /* títulos en negro */
-    }
+body {
+  background: #eef2ff;
+  color: #000;
+  overflow-x: hidden;
+}
 
-    a {
-      text-decoration: none;
-      color: #000; /* enlaces en negro */
-    }
+/* ===== HERO + PARALLAX ===== */
+header {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
 
-    /* ======== HEADER ======== */
-    header {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0a4aa1 50%, #ffffff 50%);
-      color: #000; /* textos en negro sobre el header */
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
+.parallax-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0a4aa1, #1e90ff);
+  z-index: 0;
+}
 
-    header::before {
-      content: "";
-      position: absolute;
-      top: -20%;
-      left: -20%;
-      width: 150%;
-      height: 150%;
-      background: radial-gradient(circle, rgba(255,255,255,0.15) 20%, transparent 20%);
-      background-size: 80px 80px;
-      animation: moveShapes 20s linear infinite;
-    }
+.parallax-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.25), transparent 40%),
+    radial-gradient(circle at 80% 60%, rgba(255,255,255,0.2), transparent 45%);
+  animation: bgMove 20s linear infinite;
+}
 
-    @keyframes moveShapes {
-      from {transform: translate(0,0);}
-      to {transform: translate(80px,80px);}
-    }
+@keyframes bgMove {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-80px); }
+}
 
-    header h1 {
-      font-size: 3rem;
-      z-index: 1;
-    }
+.hero-content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
 
-    header p {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      z-index: 1;
-    }
+.hero-content h1 {
+  font-size: 3rem;
+}
 
-    header button {
-      margin-top: 2rem;
-      padding: 0.8rem 2rem;
-      background: #0a4aa1;
-      color: #fff; /* botón con texto blanco para contraste */
-      font-weight: bold;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background 0.3s;
-      z-index: 1;
-    }
+.hero-content p {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
 
-    header button:hover {
-      transform: scale(1.05);
-      background: #08377c;
-    }
+.hero-content button {
+  margin-top: 2rem;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  border: none;
+  background: #ffffff;
+  color: #0a4aa1;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    /* ======== SECCIONES ======== */
-    section {
-      padding: 4rem 10%;
-    }
+/* ===== BURBUJAS ===== */
+.bubble {
+  position: absolute;
+  bottom: -150px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 50%;
+  animation: float linear infinite;
+  z-index: 1;
+}
 
-    .about, .projects, .contact {
-      background: white;
-      margin: 2rem 0;
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-      color: #000; /* texto negro */
-    }
+@keyframes float {
+  to { transform: translateY(-140vh); }
+}
 
-    .about:hover, .projects:hover, .contact:hover {
-      transform: translateY(-5px);
-    }
+/* ===== SECCIONES ===== */
+section {
+  padding: 4rem 10%;
+}
 
-    .projects .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
+.card {
+  border-radius: 25px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  transition: transform 0.3s;
+}
 
-    .project-card {
-      background: #f5f9ff;
-      border-radius: 15px;
-      padding: 1.5rem;
-      text-align: center;
-      transition: transform 0.3s, background 0.3s;
-      color: #000; /* texto negro en proyectos */
-    }
+.card:hover {
+  transform: translateY(-6px);
+}
 
-    .project-card:hover {
-      transform: scale(1.05);
-      background: #e3ecff;
-    }
+/* COLORES INTENSOS */
+.section-videojuegos { background: #4f46e5; color: white; }
+.section-desarrollo  { background: #059669; color: white; }
+.section-lectura     { background: #d97706; color: white; }
+.section-puzzles     { background: #7c3aed; color: white; }
+.section-profesional { background: #0f766e; color: white; }
+.section-situacion   { background: #b91c1c; color: white; }
 
-    /* ======== FOOTER ======== */
-    footer {
-      background: #0a4aa1;
-      color: #fff; /* el footer se mantiene en blanco sobre azul */
-      text-align: center;
-      padding: 1.5rem;
-      margin-top: 2rem;
-    }
-  </style>
+.section-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.section-layout img,
+.carousel img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 10px;
+}
+
+/* ===== MODAL ===== */
+#modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+#modalContent {
+  width: 75%;
+  background: #ffffff;
+  border-radius: 25px;
+  padding: 2rem;
+  color: #000;
+  position: relative;
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+#closeModal {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* ===== CARRUSEL ===== */
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.carousel img {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.carousel img.fade {
+  opacity: 0;
+  transform: translateX(25px);
+}
+
+.carousel-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #0a4aa1;
+  color: white;
+  border: none;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+footer {
+  display: grid;
+  background: #0a4aa1;
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+  flex-direction: column;
+  grid-template-columns: 33% 33% 33%;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .section-layout {
+    grid-template-columns: 1fr;
+  }
+  #modalContent {
+    width: 90%;
+  }
+}
+</style>
 </head>
+
 <body>
-  <!-- HEADER -->
-  <header>
+
+<header id="hero">
+  <div class="parallax-bg"></div>
+
+  <div class="hero-content">
     <h1>Carlos Rojas</h1>
-    <p> Estudiante DAM</p>
-    <button onclick="scrollToSection('about')">Conóceme</button>
-  </header>
+    <p>Estudiante DAM</p>
+    <button onclick="scrollToSection('about')">Ver portfolio</button>
+  </div>
+</header>
 
-  <!-- SOBRE MÍ -->
-  <section class="about" id="about">
-    <h2>Sobre mí</h2>
-    <p>Alumno de DAM, algo </p>
-  </section>
-
-  <!-- PROYECTOS -->
-  <section class="projects" id="projects">
-    <h2>Proyectos</h2>
-    <div class="grid">
-      <div class="project-card">Proyecto 1</div>
-      <div class="project-card">Proyecto 2</div>
-      <div class="project-card">Proyecto 3</div>
+<section id="about" class="card">
+  <div class="section-layout">
+    <div>
+      <h2>Sobre mí</h2>
+      <p>Estudiante de DAM interesado en el desarrollo de aplicaciones y videojuegos.</p>
     </div>
-  </section>
+    <img src="assets/img/about.jpg">
+  </div>
+</section>
 
-  <!-- CONTACTO -->
-  <section class="contact" id="contact">
-    <h2>Contacto</h2>
-    <p>Correo: crojasgo@alumnes.santjosepobrer.es</p>
-    <p></p>
-    <p>Redes sociales: @CrojasGit</p>
-  </section>
+<section class="card">
+  <h2>Intereses personales</h2>
+  <div id="personalInterests"></div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 Nombre Apellido. Todos los derechos reservados.</p>
-  </footer>
+<footer>
+  <a href="https://drive.google.com/file/d/1OhCDLp6KoZ7EroRYluPQ2FbuOt6PwFqD/view?usp=sharing" style="color: white;">Curriculum</a>
+  <p>&copy; 2025 Carlos Rojas</p>
+  <a href="https://wilmixt.itch.io/" style="color: rgb(255, 255, 255);">Perfil de itch.io</a>
+</footer>
 
-  <script>
-    // Función para hacer scroll suave a las secciones
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
+<div id="modalOverlay">
+  <div id="modalContent">
+    <span id="closeModal">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <p id="modalText"></p>
+    <div class="carousel">
+      <button class="carousel-btn" id="prevImg">‹</button>
+      <img id="carouselImg">
+      <button class="carousel-btn" id="nextImg">›</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const modalData = {
+  Videojuegos:{class:"section-videojuegos",text:"Interés por videojuegos indie, soulslikes y metroidvanias.",images:["assets/img/videojuegos/1.jpg","assets/img/videojuegos/2.jpg","assets/img/videojuegos/3.jpg","assets/img/videojuegos/4.jpg"]},
+  Desarrollo:{class:"section-desarrollo",text:"Desarrollo de proyectos personales en 2D y 3D.",images:["assets/img/desarrollo/1.jpg","assets/img/desarrollo/2.jpg","assets/img/desarrollo/3.jpg"]},
+  Lectura:{class:"section-lectura",text:"Lectura de psicología, comportamiento humano y manga.",images:["assets/img/lectura/1.jpg","assets/img/lectura/2.jpg","assets/img/lectura/3.jpg"]},
+  Puzzles:{class:"section-puzzles",text:"Puzzles lógicos y cubos de Rubik.",images:["assets/img/puzzles/1.jpg","assets/img/puzzles/2.jpg","assets/img/puzzles/3.jpg","assets/img/puzzles/4.jpg","assets/img/puzzles/5.jpg"]},
+  Profesional:{class:"section-profesional",text:"El desarrollo de aplicaciones encaja plenamente conmigo.",images:["assets/img/profesional/1.jpg","assets/img/profesional/2.jpg"]},
+  Situacion:{class:"section-situacion",text:"18 años, estudio DAM y experiencia laboral como PDA.",images:["assets/img/situacion/1.jpg","assets/img/situacion/2.jpg","assets/img/situacion/3.jpg"]}
+};
+
+const container=document.getElementById("personalInterests");
+Object.keys(modalData).forEach(cat=>{
+  const d=document.createElement("div");
+  d.className=`card clickable section-layout ${modalData[cat].class}`;
+  d.innerHTML=`<div><h3>${cat}</h3><p>Haz click para ver más</p></div><img src="${modalData[cat].images[0]}">`;
+  d.onclick=()=>openModal(cat);
+  container.appendChild(d);
+});
+
+const overlay=document.getElementById("modalOverlay");
+const title=document.getElementById("modalTitle");
+const text=document.getElementById("modalText");
+const img=document.getElementById("carouselImg");
+let currentImages=[],index=0;
+
+function openModal(cat){
+  title.textContent=cat;
+  text.textContent=modalData[cat].text;
+  currentImages=modalData[cat].images;
+  index=0;
+  img.src=currentImages[0];
+  overlay.style.display="flex";
+}
+
+function changeImage(i){
+  img.classList.add("fade");
+  setTimeout(()=>{
+    index=i;
+    img.src=currentImages[index];
+    img.classList.remove("fade");
+  },200);
+}
+
+document.getElementById("closeModal").onclick=()=>overlay.style.display="none";
+document.getElementById("prevImg").onclick=()=>changeImage((index-1+currentImages.length)%currentImages.length);
+document.getElementById("nextImg").onclick=()=>changeImage((index+1)%currentImages.length);
+
+/* BURBUJAS */
+const hero=document.getElementById("hero");
+for(let i=0;i<25;i++){
+  const b=document.createElement("div");
+  b.className="bubble";
+  b.style.left=Math.random()*100+"%";
+  b.style.width=b.style.height=20+Math.random()*60+"px";
+  b.style.animationDuration=12+Math.random()*20+"s";
+  hero.appendChild(b);
+}
+
+/* PARALLAX */
+window.addEventListener("scroll",()=>{
+  document.querySelector(".parallax-bg").style.transform=`translateY(${window.scrollY*0.3}px)`;
+});
+
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+</script>
+
 </body>
 </html>
-
